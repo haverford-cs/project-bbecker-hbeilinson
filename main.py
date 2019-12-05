@@ -34,18 +34,9 @@ def main():
     # Read in data from csv
     X, y = util.read_csv(FILE)
 
-    # X = np.array([
-    # [1,1,1,1],
-    # [2,2,2,2],
-    # [3,3,3,3],
-    # [4,4,4,4],
-    # [5,5,5,5],
-    # ])
-    # y = [1,2,3,4,5]
-
     # Partition data into train and test datasets
     train_X, train_y, test_X, test_y = partition(X, y)
-    print (train_X, train_y, test_X, test_y)
+    print(train_X.shape, train_y.shape, test_x.shape, test_y.shape)
 
 
 if __name__=="__main__":

@@ -43,7 +43,7 @@ def read_csv(filename):
     examples = [] # matrix of examples
     labels = [] # list of labels
     names = []
-    
+
 
     header = csv_file.readline()
     # read the examples and labels
@@ -57,7 +57,7 @@ def read_csv(filename):
                 line = line[:index]+" "+line[index+1:]
 
         tokens = line.split(",")
-        
+
         label = tokens[1]
         example = tokens[2:]
         example = [float(feature) for feature in example]
@@ -73,6 +73,6 @@ def read_csv(filename):
 
     return X, y
 
-
-X,y = read_csv("19000-spotify-songs/song_data.csv")
-print(y.shape)
+if __name__ == "__main__":
+    X,y = read_csv("19000-spotify-songs/song_data.csv")
+    print(y.shape)
