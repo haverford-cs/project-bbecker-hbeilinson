@@ -1,2 +1,3 @@
 *.csv
 19000-spotify-songs
+__pycache__/
