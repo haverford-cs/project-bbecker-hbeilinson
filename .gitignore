@@ -1,3 +1,4 @@
 *.csv
 19000-spotify-songs
 __pycache__/
+.DS_Store
