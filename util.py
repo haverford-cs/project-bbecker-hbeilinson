@@ -59,6 +59,7 @@ def read_csv(filename):
         tokens = line.split(",")
         
         label = tokens[1]
+        label = int(label)
         example = tokens[2:]
         example = [float(feature) for feature in example]
         if example not in examples:
@@ -72,7 +73,3 @@ def read_csv(filename):
     y = np.array(labels)
 
     return X, y
-
-
-X,y = read_csv("19000-spotify-songs/song_data.csv")
-print(y.shape)
