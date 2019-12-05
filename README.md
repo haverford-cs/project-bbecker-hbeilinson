@@ -12,6 +12,12 @@ Brian, 12/4/19, Also 2ish hours:
 - Pushed the proposal pdf
 - Wrote util.py, with function read_csv, which converts data to a label vector and examples matrix
 
+Hannah and Brian, in the lab, advised by Sara, 12/5/19:
+- Shuffle data, but use seed so it shuffles the same way each time.
+- Can use FC in tensorflow and Random Forest in sklearn, but maybe can check if both exists in one library.
+- If accuracy is low, try binning to have fewer labels.
+- Could try RandomForestRegressor, might be weird.
+
 References:
 https://www.kaggle.com/edalrami/19000-spotify-songs/data
 
