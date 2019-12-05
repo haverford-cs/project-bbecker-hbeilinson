@@ -59,6 +59,7 @@ def read_csv(filename):
         tokens = line.split(",")
 
         label = tokens[1]
+        label = int(label)
         example = tokens[2:]
         example = [float(feature) for feature in example]
         if example not in examples:
