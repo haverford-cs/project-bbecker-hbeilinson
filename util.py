@@ -34,76 +34,45 @@ def parse_args():
 
     return opts
 
-def read_csv(filename, train=False):
+def read_csv(filename):
     """
-    Read arff file into Partition format. Params:
-    * filename (str), the path to the arff file
-    * train (bool), True if this is a training data set (convert cont features)
-        and False if test dataset (don't convert continuous features)
+    Read csv file into numpy array. Params:
+    * filename (str), the path to the csv file
     """
-    arff_file = open(filename,'r')
-    data = [] # list of Examples
-    F = OrderedDict() # key: feature name, value: list of feature values
+    csv_file = open(filename,'r',encoding="utf8")
+    examples = [] # matrix of examples
+    labels = [] # list of labels
+    names = []
+    
 
-    header = arff_file.readline()
-    line = arff_file.readline().strip()
+    header = csv_file.readline()
+    # read the examples and labels
+    for line in csv_file:
 
-    # read the attributes
-    while line != "@data":
+        inQuote = False
+        for index, char in enumerate(line):
+            if char=="\"":
+                inQuote = not inQuote
+            if inQuote and char==",":
+                line = line[:index]+" "+line[index+1:]
 
-        clean = line.replace('{','').replace('}','').replace(',','')
-        tokens = clean.split()
-        name = tokens[1][1:-1]
+        tokens = line.split(",")
+        
+        label = tokens[1]
+        example = tokens[2:]
+        example = [float(feature) for feature in example]
+        if example not in examples:
+            labels.append(label)
+            examples.append(example)
+            names.append(tokens[0])
 
-        # discrete vs. continuous feature
-        #if '{' in line:
-        feature_values = tokens[2:]
-        #else:
-        #    feature_values = "cont"
+    csv_file.close()
 
-        # record features or label
-        if name != "class":
-            F[name] = feature_values
-        else:
-            # first will be label -1, second will be +1
-            first = tokens[2]
-            K = len(tokens)-2
-            labelVals = feature_values
-        line = arff_file.readline().strip()
+    X = np.array(examples)
+    y = np.array(labels)
 
-    # read the examples
-    for line in arff_file:
-        tokens = line.strip().split(",")
-        X_dict = {}
-        i = 0
-        for key in F:
-            val = tokens[i]
-            if F[key] == "cont":
-                val = float(tokens[i])
-            X_dict[key] = val
-            i += 1
+    return X, y
 
-        # change binary labels to {-1, 1}
-        #label = -1 if tokens[-1] == first else 1
-        #actually just set label to be final val
-        label = tokens[-1]
 
-        # add to list of Examples
-        data.append(Example(X_dict,label))
-
-    arff_file.close()
-
-    # convert continuous features to discrete
-    F_disc = OrderedDict()
-    for feature in F:
-
-        # if continuous, convert feature (NOTE: modifies data and F_disc)
-        # if F[feature] == "cont" and train: # only for train! (leave test alone)
-        #     convert_one(feature, data, F_disc)
-
-        # if not continuous, just copy over
-        #else:
-        F_disc[feature] = F[feature]
-
-    partition = Partition(data, F_disc,K,labelVals)
-    return partition
+X,y = read_csv("19000-spotify-songs/song_data.csv")
+print(y.shape)
