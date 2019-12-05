@@ -1,7 +1,7 @@
 """
 Utils for final project.
-Authors:
-Date:
+Authors: Brian Becker and Hannah Beilinson
+Date: 12/4/19
 """
 
 # python imports
