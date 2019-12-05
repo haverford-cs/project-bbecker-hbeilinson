@@ -36,7 +36,7 @@ def main():
 
     # Partition data into train and test datasets
     train_X, train_y, test_X, test_y = partition(X, y)
-    print(train_X.shape, train_y.shape, test_x.shape, test_y.shape)
+    print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
 
 
 if __name__=="__main__":
