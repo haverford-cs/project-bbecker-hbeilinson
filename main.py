@@ -11,6 +11,7 @@ import sys
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import RandomForestRegressor
 import numpy as np
+import math
 
 #Our files
 import util
@@ -62,9 +63,12 @@ def accuracy(y,yHat):
     correct = [(yHat[i]==y[i]) for i in range(len(yHat))]
     return np.sum(correct)/len(correct)
 
-def MSE(y,yHat):
+def rMSE(y,yHat):
     n = len(y)
     difs = yHat - y
+    sDifs = [e**2 for e in dif]
+    mse = np.sum(sDifs)/n
+    return math.sqrt(mse)
 
 if __name__=="__main__":
     main()
