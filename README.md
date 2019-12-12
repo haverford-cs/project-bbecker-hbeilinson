@@ -18,6 +18,10 @@ Hannah and Brian, in the lab, advised by Sara, 12/5/19:
 - If accuracy is low, try binning to have fewer labels.
 - Could try RandomForestRegressor, might be weird.
 
+Hannah, 12/12/19, in lab:
+
+Brian, 12/12/19, in lab:
+
 References:
 https://www.kaggle.com/edalrami/19000-spotify-songs/data
 
