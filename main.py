@@ -53,7 +53,8 @@ def trainRandomForest(X,y,T,regressor=False):
 def testRandomForest(X_train,y_train,X_test,y_test,regressor=False):
     
     clf = trainRandomForest(X_train,y_train,regressor)
-    yHat = clf.predict(X_test)
+    yHat = np.array(clf.predict(X_test))
+    return yHat
 
 
 def accuracy(y,yHat):
@@ -62,7 +63,8 @@ def accuracy(y,yHat):
     return np.sum(correct)/len(correct)
 
 def MSE(y,yHat):
-    pass
+    n = len(y)
+    difs = yHat - y
 
 if __name__=="__main__":
     main()
