@@ -21,6 +21,9 @@ Hannah and Brian, in the lab, advised by Sara, 12/5/19:
 Hannah, 12/12/19, in lab:
 
 Brian, 12/12/19, in lab:
+- Wrote train/test Random Forest functions in main.py using sklearn.ensemble Random Forest models.
+- These functions take a boolean parameter called `regressor` which determines whether RFClassifier or RFRegressor is used.
+- Wrote accuracy and MSE functions in main.py
 
 References:
 https://www.kaggle.com/edalrami/19000-spotify-songs/data

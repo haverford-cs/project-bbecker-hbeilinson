@@ -51,9 +51,9 @@ def trainRandomForest(X,y,T,regressor=False):
 
     return clf.fit(X,y)
 
-def testRandomForest(X_train,y_train,X_test,y_test,regressor=False):
+def testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False):
     
-    clf = trainRandomForest(X_train,y_train,regressor)
+    clf = trainRandomForest(X_train,y_train,T,regressor)
     yHat = np.array(clf.predict(X_test))
     return yHat
 
