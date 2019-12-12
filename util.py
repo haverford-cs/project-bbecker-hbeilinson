@@ -10,6 +10,7 @@ import math
 import numpy as np
 import optparse
 import sys
+import random
 
 # my file imports
 
@@ -45,9 +46,14 @@ def read_csv(filename):
     names = []
 
 
-    header = csv_file.readline()
+    # Enables shuffling points so that order isn't based on playlist
+    lines = csv_file.readlines()[1:]
+    random_order = list(range(len(lines)))
+    random.shuffle(random_order)
+
     # read the examples and labels
-    for line in csv_file:
+    for index in random_order:
+        line = lines[index]
 
         inQuote = False
         for index, char in enumerate(line):
