@@ -9,6 +9,7 @@ import sys
 
 # Package imports
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestRegressor
 import numpy as np
 
 #Our files
@@ -38,6 +39,30 @@ def main():
     train_X, train_y, test_X, test_y = partition(X, y)
     print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
 
+
+
+def trainRandomForest(X,y,T,regressor=False):
+    """Trains Random Forest on train sets X and y"""
+    if regressor:
+        clf = RandomForestRegressor(n_estimators=T)
+    else:
+        clf = RandomForestClassifier(n_estimators=T,criterion="entropy")
+
+    return clf.fit(X,y)
+
+def testRandomForest(X_train,y_train,X_test,y_test,regressor=False):
+    
+    clf = trainRandomForest(X_train,y_train,regressor)
+    yHat = clf.predict(X_test)
+
+
+def accuracy(y,yHat):
+    """Returns accuracy of predictions yHat on true labels y in discrete case."""
+    correct = [(yHat[i]==y[i]) for i in range(len(yHat))]
+    return np.sum(correct)/len(correct)
+
+def MSE(y,yHat):
+    pass
 
 if __name__=="__main__":
     main()
