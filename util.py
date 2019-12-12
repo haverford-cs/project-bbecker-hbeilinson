@@ -49,7 +49,7 @@ def read_csv(filename):
     # Enables shuffling points so that order isn't based on playlist
     lines = csv_file.readlines()[1:]
     random_order = list(range(len(lines)))
-    random.shuffle(random_order)
+    random.Random(42).shuffle(random_order)
 
     # read the examples and labels
     for index in random_order:
