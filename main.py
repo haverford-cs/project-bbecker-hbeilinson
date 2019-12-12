@@ -16,6 +16,7 @@ import numpy as np
 import util
 
 FILE = "19000-spotify-songs/song_data.csv"
+T = 200
 
 def partition(X, y):
     # Partitioned the same way each time it runs so that we're not cross contaminating
@@ -36,10 +37,10 @@ def main():
     X, y = util.read_csv(FILE)
 
     # Partition data into train and test datasets
-    train_X, train_y, test_X, test_y = partition(X, y)
-    print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
+    X_train, y_train, X_test, y_test = partition(X, y)
+    # print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
 
-
+    print(testRandomForest(X_train, y_train, X_test, y_test, T, True))
 
 def trainRandomForest(X,y,T,regressor=False):
     """Trains Random Forest on train sets X and y"""
@@ -48,11 +49,12 @@ def trainRandomForest(X,y,T,regressor=False):
     else:
         clf = RandomForestClassifier(n_estimators=T,criterion="entropy")
 
-    return clf.fit(X,y)
+    clf.fit(X,y)
+    return clf
 
-def testRandomForest(X_train,y_train,X_test,y_test,regressor=False):
-    
-    clf = trainRandomForest(X_train,y_train,regressor)
+def testRandomForest(X_train,y_train,X_test,y_test,T, regressor=False):
+
+    clf = trainRandomForest(X_train,y_train,T, regressor)
     yHat = np.array(clf.predict(X_test))
     return yHat
 

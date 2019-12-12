@@ -19,6 +19,8 @@ Hannah and Brian, in the lab, advised by Sara, 12/5/19:
 - Could try RandomForestRegressor, might be weird.
 
 Hannah, 12/12/19, in lab:
+- Shuffled order of reading in lines in util.py so that songs are not organized by playlist when partitioning train and test data. Used seed = 42 so that it will shuffle the same way each time. Chose to shuffle in util rather than when partitioning train and test data so that the X and y can stay together.
+- Tested training and testing of RandomForest in main.
 
 Brian, 12/12/19, in lab:
 
