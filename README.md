@@ -27,6 +27,20 @@ Brian, 12/12/19, in lab:
 - These functions take a boolean parameter called `regressor` which determines whether RFClassifier or RFRegressor is used.
 - Wrote accuracy and MSE functions in main.py
 
+To do list, 12/15:
+- Run accuracies/MSEs on random forests without binning
+- Run accuracies/MSEs on FC without binning
+- Set up binning
+- Rerun the above with binning
+- Write a feature perturber
+- Run tests to collect mean errors post perturbation
+
+Visualizations we want for presentation:
+- Confusion matrix (heat map style, if possible)
+- Feature importance in random forest
+- Feature importance in FC
+- Some graph of mean errors (not squared) after perturbation
+
 References:
 https://www.kaggle.com/edalrami/19000-spotify-songs/data
 

@@ -53,8 +53,6 @@ def trainRandomForest(X,y,T,regressor=False):
     clf.fit(X,y)
     return clf
 
-def testRandomForest(X_train,y_train,X_test,y_test,T, regressor=False):
-
 def testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False):
 
     clf = trainRandomForest(X_train,y_train,T,regressor)
