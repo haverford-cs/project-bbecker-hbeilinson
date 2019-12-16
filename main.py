@@ -18,6 +18,7 @@ import tensorflow as tf
 #Our files
 import util
 import run_nn_tf as nn
+from fc_nn import FCmodel
 
 FILE = "19000-spotify-songs/song_data.csv"
 T = 200
