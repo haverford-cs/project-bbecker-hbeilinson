@@ -21,11 +21,16 @@ import math
 
 #Our files
 import util
+from Perturber import Perturber
 #import run_nn_tf as nn
 #from fc_nn import FCmodel
 
 FILE = "19000-spotify-songs/song_data.csv"
-T = 1000
+T = 200
+PERTURB = False
+NUM_PERTURBED = 1
+CHANGE = 1.05
+VERBOSE = 1
 
 def partition(X, y):
     # Partitioned the same way each time it runs so that we're not cross contaminating
@@ -49,14 +54,15 @@ def main():
     #test correlation function
     testCor(X,y)
 
+
     # Partition data into train and test datasets
     X_train, y_train, X_test, y_test = partition(X, y)
 
     # Uncomment below to test Random Forest
-    # run_pipeline_rf(X_train, y_train, X_test, y_test)
+    run_pipeline_rf(X_train, y_train, X_test, y_test)
 
     #Uncomment below to test sklearn FC
-    run_pipeline_mlp(X_train, y_train, X_test, y_test)
+    #run_pipeline_mlp(X_train, y_train, X_test, y_test)
 
     # Uncomment below to test tensorflow FC
     # run_fc_nn(X_train,y_train,X_test,y_test)
@@ -94,9 +100,11 @@ def trainRandomForest(X,y,T,regressor=False):
     clf.fit(X,y)
     return clf
 
-def testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False):
+def testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False,perturb=False):
 
     clf = trainRandomForest(X_train,y_train,T,regressor)
+    if(perturb):
+        X_test = perturb(clf.feature_importances_,X_test,y_test,VERBOSE,NUM_PERTURBED,CHANGE)
     yHat = np.array(clf.predict(X_test))
     return yHat
 
@@ -158,6 +166,10 @@ def correlation(y,x):
     cor = np.corrcoef(z)
     print(cor)
     return cor[0][1]
+
+def perturb(ft_imp,X_test,y_test,verbose=0,num_features=1,change=1.05):
+    pt = Perturber(ft_imp,X_test,y_test,verbose)
+    return pt.perturb(num_features,change)
 
 if __name__=="__main__":
     main()
