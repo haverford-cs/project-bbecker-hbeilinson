@@ -46,10 +46,10 @@ def partition(X, y):
 
 def main():
     # Runs pipeline
-    accuracy_vs_binning(False)
+    #accuracy_vs_binning(False)
 
     # Read in data from csv
-    # X, y = util.read_csv(FILE,normalize=True,mean_center=True, do_bin=True, bin_step=20)
+    X, y = util.read_csv(FILE,normalize=True,mean_center=True, do_bin=True, bin_step=20)
 
 
     #test correlation function
@@ -71,7 +71,7 @@ def main():
     # run_fc_nn(X_train,y_train,X_test,y_test)
 
 def run_pipeline_rf(X_train, y_train, X_test, y_test):
-    y_pred = testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False)
+    y_pred = testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False,PERTURB)
     # print(rMSE(y_test, y_pred))
     print(accuracy(y_test, y_pred))
     conf_mat(y_pred, X_test, y_test, "Random Forest", numbers=False)
