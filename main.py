@@ -14,7 +14,7 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-import seaborn as sns
+#import seaborn as sns
 
 import tensorflow as tf
 
@@ -83,7 +83,7 @@ def run_fc_nn(X_train, y_train, X_test, y_test):
     ###### TODO: YOUR CODE HERE ######
     # call the train function to train a fully connected neural network
     fc = FCmodel()
-    train_acc,epochs = nn.run_training(fc,train_dse)
+    train_acc,epochs = nn.run_training(fc,train_dset)
     print(train_acc)
     #train_curve(train_acc,val_acc,epochs,"FCcurve.png")
 
@@ -103,7 +103,7 @@ def rMSE(y,yHat):
 
 def conf_mat(y_pred, X_test, y_test, regressor_name):
     matrix = confusion_matrix(y_test, y_pred)
-    sns.heatmap(matrix,annot=False,cbar=False)
+    #sns.heatmap(matrix,annot=False,cbar=False)
     plt.ylabel('True Label')
     plt.xlabel('Predicted Label')
     plt.title(regressor_name + ' Confusion Matrix')
