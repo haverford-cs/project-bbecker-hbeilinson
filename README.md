@@ -35,6 +35,7 @@ Hannah, 12/15/19, many hours:
 
 Hannah, 12/16/19:
 - Tried again to improve random forest through changing hyperparameters. Changed max_depth to 2, but this caused it to almost always predict the same popularity score (roughly 54). Then changed min_samples_leaf to 10, but saw very few changes in results. I think that this happens because most of the examples are clustered in a few popularity scores.
+- Added sklearn FC architecture. Initial results have similar accuracy to random forest (0.020435967302452316), but it didn't converge. Increased max_iter to 1000, but accuracy hardly improved.
 
 To do list, 12/15:
 - Run accuracies/MSEs on random forests without binning
