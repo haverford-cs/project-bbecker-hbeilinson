@@ -38,7 +38,7 @@ def parse_args():
 
     return opts
 
-def read_csv(filename):
+def read_csv(filename, normalize=False, mean_center=False):
     """
     Read csv file into numpy array. Params:
     * filename (str), the path to the csv file
@@ -80,6 +80,20 @@ def read_csv(filename):
 
     X = np.array(examples)
     y = np.array(labels)
+
+    if(normalize):
+        for i in range(X.shape[1]):
+            colI = X[:,i]
+            maxVal = np.max(colI)
+            X[:,i]/=maxVal
+        print(X)
+        
+    if(mean_center):
+        xMn = np.mean(X)
+        xStd = np.std(X)
+        X-=xMn
+        X/=xStd
+        print(X)
 
     return X, y
     
