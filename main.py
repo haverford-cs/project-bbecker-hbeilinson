@@ -71,7 +71,7 @@ def main():
     # run_fc_nn(X_train,y_train,X_test,y_test)
 
 def run_pipeline_rf(X_train, y_train, X_test, y_test):
-    y_pred = testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False,PERTURB)
+    y_pred = testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False,perturb=PERTURB)
     # print(rMSE(y_test, y_pred))
     print(accuracy(y_test, y_pred))
     conf_mat(y_pred, X_test, y_test, "Random Forest", numbers=False)
