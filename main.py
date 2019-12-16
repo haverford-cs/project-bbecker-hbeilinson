@@ -46,9 +46,10 @@ def partition(X, y):
 
 def main():
     # Runs pipeline
+    accuracy_vs_binning(False)
 
     # Read in data from csv
-    X, y = util.read_csv(FILE,normalize=True,mean_center=True, do_bin=False, bin_step=20)
+    # X, y = util.read_csv(FILE,normalize=True,mean_center=True, do_bin=True, bin_step=20)
 
 
     #test correlation function
@@ -56,13 +57,15 @@ def main():
 
 
     # Partition data into train and test datasets
-    X_train, y_train, X_test, y_test = partition(X, y)
+    # X_train, y_train, X_test, y_test = partition(X, y)
 
     # Uncomment below to test Random Forest
     run_pipeline_rf(X_train, y_train, X_test, y_test)
 
     #Uncomment below to test sklearn FC
+
     #run_pipeline_mlp(X_train, y_train, X_test, y_test)
+
 
     # Uncomment below to test tensorflow FC
     # run_fc_nn(X_train,y_train,X_test,y_test)
@@ -151,6 +154,34 @@ def conf_mat(y_pred, X_test, y_test, regressor_name, numbers=False):
     plt.show()
     print(matrix)
 
+
+def correlation_plot():
+    pass
+
+def accuracy_vs_binning(proportional):
+    bin_steps = [1, 5, 10, 20, 25, 50, 100]
+    RF_accuracies = []
+    MLP_accuracies = []
+    for step_size in bin_steps:
+        X, y = util.read_csv(FILE,normalize=True,mean_center=True, do_bin=True, bin_step=step_size)
+        X_train, y_train, X_test, y_test = partition(X, y)
+        # Test with random forest
+        rf_y_hat = testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False)
+        RF_accuracies.append(accuracy(y_test, rf_y_hat))
+        # Test with MLP
+        mlp_y_hat = testMLP(X_train,y_train,X_test,y_test)
+        MLP_accuracies.append(accuracy(y_test, mlp_y_hat))
+
+    plt.plot(RF_accuracies, bin_steps)
+    plt.plot(MLP_accuracies, bin_steps)
+    plt.legend(['Random Forest', "Neural Network"])
+    plt.ylabel("Accuracy")
+    plt.xlabel("Binning Step Size")
+    plt.title("Accuracy vs. Bin Size")
+    plt.show()
+    plt.savefig("Accuracy vs. Binning.png")
+
+
 def testCor(X,y):
     """Tests correlation given ftr mtx and label vec"""
     for i in range(len(X[0])):
@@ -170,6 +201,7 @@ def correlation(y,x):
 def perturb(ft_imp,X_test,y_test,verbose=0,num_features=1,change=1.05):
     pt = Perturber(ft_imp,X_test,y_test,verbose)
     return pt.perturb(num_features,change)
+
 
 if __name__=="__main__":
     main()
