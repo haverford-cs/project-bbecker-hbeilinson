@@ -10,8 +10,11 @@ import sys
 # Package imports
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import confusion_matrix
+import matplotlib.pyplot as plt
 import numpy as np
 import math
+import seaborn as sns
 
 #Our files
 import util
@@ -41,7 +44,9 @@ def main():
     X_train, y_train, X_test, y_test = partition(X, y)
     # print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
 
-    print(testRandomForest(X_train, y_train, X_test, y_test, T, True))
+    y_pred = testRandomForest(X_train, y_train, X_test, y_test, T, False)
+    conf_mat(y_pred, X_test, y_test, "Random Forest")
+    # print(testRandomForest(X_train, y_train, X_test, y_test, T, True))
 
 def trainRandomForest(X,y,T,regressor=False):
     """Trains Random Forest on train sets X and y"""
@@ -71,6 +76,15 @@ def rMSE(y,yHat):
     sDifs = [e**2 for e in dif]
     mse = np.sum(sDifs)/n
     return math.sqrt(mse)
+
+def conf_mat(y_pred, X_test, y_test, regressor_name):
+    matrix = confusion_matrix(y_test, y_pred)
+    sns.heatmap(matrix,annot=False,cbar=False)
+    plt.ylabel('True Label')
+    plt.xlabel('Predicted Label')
+    plt.title(regressor_name + ' Confusion Matrix')
+    plt.show()
+    print(matrix)
 
 if __name__=="__main__":
     main()

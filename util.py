@@ -11,6 +11,9 @@ import numpy as np
 import optparse
 import sys
 import random
+from sklearn.metrics import confusion_matrix
+from sklearn.utils.multiclass import unique_labels
+import matplotlib.pyplot as plt
 
 # my file imports
 
@@ -79,7 +82,7 @@ def read_csv(filename):
     y = np.array(labels)
 
     return X, y
-
+    
 if __name__ == "__main__":
     X,y = read_csv("19000-spotify-songs/song_data.csv")
     print(y.shape)
