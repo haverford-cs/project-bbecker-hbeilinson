@@ -83,7 +83,7 @@ def run_fc_nn(X_train, y_train, X_test, y_test):
     ###### TODO: YOUR CODE HERE ######
     # call the train function to train a fully connected neural network
     fc = FCmodel()
-    train_acc,epochs = nn.run_training(fc,train_dse)
+    train_acc,epochs = nn.run_training(fc,train_dset)
     print(train_acc)
     #train_curve(train_acc,val_acc,epochs,"FCcurve.png")
 
