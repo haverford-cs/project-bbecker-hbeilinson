@@ -14,13 +14,14 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-import seaborn as sns
+#import seaborn as sns
 
 # import tensorflow as tf
 
 #Our files
 import util
-# import run_nn_tf as nn
+import run_nn_tf as nn
+from fc_nn import FCmodel
 
 FILE = "19000-spotify-songs/song_data.csv"
 T = 200
@@ -85,7 +86,7 @@ def run_fc_nn(X_train, y_train, X_test, y_test):
     ###### TODO: YOUR CODE HERE ######
     # call the train function to train a fully connected neural network
     fc = FCmodel()
-    train_acc,epochs = nn.run_training(fc,train_dse)
+    train_acc,epochs = nn.run_training(fc,train_dset)
     print(train_acc)
     #train_curve(train_acc,val_acc,epochs,"FCcurve.png")
 

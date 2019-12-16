@@ -14,7 +14,6 @@ from tensorflow.python.keras import backend as K
 from tensorflow.python.keras.datasets.cifar import load_batch
 
 from fc_nn import FCmodel
-from cnn import CNNmodel
 ##################
 
 
