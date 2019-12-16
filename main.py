@@ -13,8 +13,11 @@ from sklearn.ensemble import RandomForestRegressor
 import numpy as np
 import math
 
+import tensorflow as tf
+
 #Our files
 import util
+import run_nn_tf as nn
 
 FILE = "19000-spotify-songs/song_data.csv"
 T = 200
@@ -35,13 +38,14 @@ def main():
     # Runs pipeline
 
     # Read in data from csv
-    X, y = util.read_csv(FILE)
+    X, y = util.read_csv(FILE,normalize=True,mean_center=True)
 
     # Partition data into train and test datasets
     X_train, y_train, X_test, y_test = partition(X, y)
     # print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
 
     print(testRandomForest(X_train, y_train, X_test, y_test, T, True))
+    run_fc_nn(X_train,y_train,X_test,y_test)
 
 def trainRandomForest(X,y,T,regressor=False):
     """Trains Random Forest on train sets X and y"""
@@ -59,6 +63,27 @@ def testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False):
     yHat = np.array(clf.predict(X_test))
     return yHat
 
+def run_fc_nn(X_train, y_train, X_test, y_test):
+    # set up train_dset, val_dset, and test_dset:
+    # see documentation for tf.data.Dataset.from_tensor_slices, use batch = 64
+    # train should be shuffled, but not validation and testing datasets
+    train_dset = tf.data.Dataset.from_tensor_slices((X_train,y_train))
+    test_dset = tf.data.Dataset.from_tensor_slices((X_test,y_test))
+
+    for songs,labels in train_dset:
+        print(songs.shape)
+        print(labels.shape)
+
+    ######## END YOUR CODE #############
+
+    ###### TODO: YOUR CODE HERE ######
+    # call the train function to train a fully connected neural network
+    fc = FCmodel()
+    train_acc,epochs = nn.run_training(fc,train_dse)
+    print(train_acc)
+    #train_curve(train_acc,val_acc,epochs,"FCcurve.png")
+
+    ######## END YOUR CODE #############
 
 def accuracy(y,yHat):
     """Returns accuracy of predictions yHat on true labels y in discrete case."""
