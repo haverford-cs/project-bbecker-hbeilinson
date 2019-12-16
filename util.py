@@ -38,7 +38,7 @@ def parse_args():
 
     return opts
 
-def read_csv(filename, normalize=False, mean_center=False):
+def read_csv(filename, normalize=False, mean_center=False, do_bin=False, bin_step = 25):
     """
     Read csv file into numpy array. Params:
     * filename (str), the path to the csv file
@@ -69,6 +69,8 @@ def read_csv(filename, normalize=False, mean_center=False):
 
         label = tokens[1]
         label = int(label)
+        if (do_bin):
+            label = bin(label, bin_step)
         example = tokens[2:]
         example = [float(feature) for feature in example]
         if example not in examples:
@@ -87,7 +89,7 @@ def read_csv(filename, normalize=False, mean_center=False):
             maxVal = np.max(colI)
             X[:,i]/=maxVal
         print(X)
-        
+
     if(mean_center):
         xMn = np.mean(X)
         xStd = np.std(X)
@@ -96,7 +98,18 @@ def read_csv(filename, normalize=False, mean_center=False):
         print(X)
 
     return X, y
-    
+
+def bin(num, step):
+    cur_bin = 0
+    steps = np.arange(0,101,step)
+    for i in steps[1:]:
+        if num <= i:
+            return cur_bin
+        cur_bin += 1
+    print("This is an error")
+    return -1
+
+
 if __name__ == "__main__":
     X,y = read_csv("19000-spotify-songs/song_data.csv")
     print(y.shape)

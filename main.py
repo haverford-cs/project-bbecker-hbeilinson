@@ -14,9 +14,9 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-import seaborn as sns
+#import seaborn as sns
 
-import tensorflow as tf
+# import tensorflow as tf
 
 #Our files
 import util
@@ -42,14 +42,17 @@ def main():
     # Runs pipeline
 
     # Read in data from csv
-    X, y = util.read_csv(FILE,normalize=True,mean_center=True)
+    X, y = util.read_csv(FILE,normalize=True,mean_center=True, do_bin=False)
 
     # Partition data into train and test datasets
     X_train, y_train, X_test, y_test = partition(X, y)
+    y_pred = testRandomForest(X_train,y_train,X_test,y_test,T,regressor=True)
+    print(rMSE(y_test, y_pred))
+    # conf_mat(y_pred, X_test, y_test, "Random Forest", numbers=True)
     # print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
 
-    print(testRandomForest(X_train, y_train, X_test, y_test, T, True))
-    run_fc_nn(X_train,y_train,X_test,y_test)
+    # print(testRandomForest(X_train, y_train, X_test, y_test, T, True))
+    # run_fc_nn(X_train,y_train,X_test,y_test)
 
 def trainRandomForest(X,y,T,regressor=False):
     """Trains Random Forest on train sets X and y"""
@@ -97,13 +100,13 @@ def accuracy(y,yHat):
 def rMSE(y,yHat):
     n = len(y)
     difs = yHat - y
-    sDifs = [e**2 for e in dif]
+    sDifs = [e**2 for e in difs]
     mse = np.sum(sDifs)/n
     return math.sqrt(mse)
 
-def conf_mat(y_pred, X_test, y_test, regressor_name):
+def conf_mat(y_pred, X_test, y_test, regressor_name, numbers=False):
     matrix = confusion_matrix(y_test, y_pred)
-    sns.heatmap(matrix,annot=False,cbar=False)
+    sns.heatmap(matrix,annot=numbers,cbar=False)
     plt.ylabel('True Label')
     plt.xlabel('Predicted Label')
     plt.title(regressor_name + ' Confusion Matrix')
