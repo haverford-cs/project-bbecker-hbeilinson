@@ -15,14 +15,14 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-import seaborn as sns
+#import seaborn as sns
 
-import tensorflow as tf
+#import tensorflow as tf
 
 #Our files
 import util
-import run_nn_tf as nn
-from fc_nn import FCmodel
+#import run_nn_tf as nn
+#from fc_nn import FCmodel
 
 FILE = "19000-spotify-songs/song_data.csv"
 T = 1000
@@ -44,6 +44,10 @@ def main():
 
     # Read in data from csv
     X, y = util.read_csv(FILE,normalize=True,mean_center=True, do_bin=False, bin_step=20)
+
+
+    #test correlation function
+    testCor(X,y)
 
     # Partition data into train and test datasets
     X_train, y_train, X_test, y_test = partition(X, y)
@@ -96,27 +100,27 @@ def testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False):
     yHat = np.array(clf.predict(X_test))
     return yHat
 
-def run_fc_nn(X_train, y_train, X_test, y_test):
-    # set up train_dset, val_dset, and test_dset:
-    # see documentation for tf.data.Dataset.from_tensor_slices, use batch = 64
-    # train should be shuffled, but not validation and testing datasets
-    train_dset = tf.data.Dataset.from_tensor_slices((X_train,y_train))
-    test_dset = tf.data.Dataset.from_tensor_slices((X_test,y_test))
+# def run_fc_nn(X_train, y_train, X_test, y_test):
+#     # set up train_dset, val_dset, and test_dset:
+#     # see documentation for tf.data.Dataset.from_tensor_slices, use batch = 64
+#     # train should be shuffled, but not validation and testing datasets
+#     train_dset = tf.data.Dataset.from_tensor_slices((X_train,y_train))
+#     test_dset = tf.data.Dataset.from_tensor_slices((X_test,y_test))
 
-    for songs,labels in train_dset:
-        print(songs.shape)
-        print(labels.shape)
+#     for songs,labels in train_dset:
+#         print(songs.shape)
+#         print(labels.shape)
 
-    ######## END YOUR CODE #############
+#     ######## END YOUR CODE #############
 
-    ###### TODO: YOUR CODE HERE ######
-    # call the train function to train a fully connected neural network
-    fc = FCmodel()
-    train_acc,epochs = nn.run_training(fc,train_dset)
-    print(train_acc)
-    #train_curve(train_acc,val_acc,epochs,"FCcurve.png")
+#     ###### TODO: YOUR CODE HERE ######
+#     # call the train function to train a fully connected neural network
+#     fc = FCmodel()
+#     train_acc,epochs = nn.run_training(fc,train_dset)
+#     print(train_acc)
+#     #train_curve(train_acc,val_acc,epochs,"FCcurve.png")
 
-    ######## END YOUR CODE #############
+#     ######## END YOUR CODE #############
 
 def accuracy(y,yHat):
     """Returns accuracy of predictions yHat on true labels y in discrete case."""
@@ -132,12 +136,28 @@ def rMSE(y,yHat):
 
 def conf_mat(y_pred, X_test, y_test, regressor_name, numbers=False):
     matrix = confusion_matrix(y_test, y_pred)
-    sns.heatmap(matrix,annot=numbers,cbar=False)
+    #sns.heatmap(matrix,annot=numbers,cbar=False)
     plt.ylabel('True Label')
     plt.xlabel('Predicted Label')
     plt.title(regressor_name + ' Confusion Matrix')
     plt.show()
     print(matrix)
+
+def testCor(X,y):
+    """Tests correlation given ftr mtx and label vec"""
+    for i in range(len(X[0])):
+        col = X[:,i]
+        print("FEATURE %d"%(i))
+        correlation(y,col)
+
+
+def correlation(y,x):
+    """Computes sample correlation between observed vectors
+    y and x"""
+    z = np.stack((x,y),axis=0)
+    cor = np.corrcoef(z)
+    print(cor)
+    return cor[0][1]
 
 if __name__=="__main__":
     main()
