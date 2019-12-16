@@ -10,13 +10,14 @@ import sys
 # Package imports
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-#import seaborn as sns
+import seaborn as sns
 
-# import tensorflow as tf
+import tensorflow as tf
 
 #Our files
 import util
@@ -24,7 +25,7 @@ import run_nn_tf as nn
 from fc_nn import FCmodel
 
 FILE = "19000-spotify-songs/song_data.csv"
-T = 200
+T = 1000
 
 def partition(X, y):
     # Partitioned the same way each time it runs so that we're not cross contaminating
@@ -42,17 +43,42 @@ def main():
     # Runs pipeline
 
     # Read in data from csv
-    X, y = util.read_csv(FILE,normalize=True,mean_center=True, do_bin=False)
+    X, y = util.read_csv(FILE,normalize=True,mean_center=True, do_bin=False, bin_step=20)
 
     # Partition data into train and test datasets
     X_train, y_train, X_test, y_test = partition(X, y)
-    y_pred = testRandomForest(X_train,y_train,X_test,y_test,T,regressor=True)
-    print(rMSE(y_test, y_pred))
-    # conf_mat(y_pred, X_test, y_test, "Random Forest", numbers=True)
-    # print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
 
-    # print(testRandomForest(X_train, y_train, X_test, y_test, T, True))
+    # Uncomment below to test Random Forest
+    # run_pipeline_rf(X_train, y_train, X_test, y_test)
+
+    #Uncomment below to test sklearn FC
+    run_pipeline_mlp(X_train, y_train, X_test, y_test)
+
+    # Uncomment below to test tensorflow FC
     # run_fc_nn(X_train,y_train,X_test,y_test)
+
+def run_pipeline_rf(X_train, y_train, X_test, y_test):
+    y_pred = testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False)
+    # print(rMSE(y_test, y_pred))
+    print(accuracy(y_test, y_pred))
+    conf_mat(y_pred, X_test, y_test, "Random Forest", numbers=False)
+
+def run_pipeline_mlp(X_train, y_train, X_test, y_test):
+    y_pred = testMLP(X_train,y_train,X_test,y_test)
+    # print(rMSE(y_test, y_pred))
+    print(accuracy(y_test, y_pred))
+    conf_mat(y_pred, X_test, y_test, "MLP", numbers=False)
+
+def trainMLP(X,y):
+    clf = MLPClassifier(max_iter=1000)
+    clf.fit(X,y)
+    return clf
+
+def testMLP(X_train,y_train,X_test,y_test):
+
+    clf = trainMLP(X_train,y_train)
+    yHat = np.array(clf.predict(X_test))
+    return yHat
 
 def trainRandomForest(X,y,T,regressor=False):
     """Trains Random Forest on train sets X and y"""

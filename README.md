@@ -27,6 +27,16 @@ Brian, 12/12/19, in lab:
 - These functions take a boolean parameter called `regressor` which determines whether RFClassifier or RFRegressor is used.
 - Wrote accuracy and MSE functions in main.py
 
+Hannah, 12/15/19, many hours:
+- Added confusion matrix code. Tried to use print_confusion_matrix(), but had the wrong version of sklearn. Eventually decided to use seaborn for heatmap visualization.
+- Added code for binning in util
+- Tested random forest. Right now accuracy is very low. Regardless of how much we bin, accuracy is usually about twice as good as random guessing (without binning accuracy is around 2%, with bin_step=25 accuracy is around 40%). Tried increasing T to 1000, but accuracy did not really increase.
+- Worked on trying to get tensorflow to work to see if an FC neural network will perform better.
+
+Hannah, 12/16/19:
+- Tried again to improve random forest through changing hyperparameters. Changed max_depth to 2, but this caused it to almost always predict the same popularity score (roughly 54). Then changed min_samples_leaf to 10, but saw very few changes in results. I think that this happens because most of the examples are clustered in a few popularity scores.
+- Added sklearn FC architecture. Initial results have similar accuracy to random forest (0.020435967302452316), but it didn't converge. Increased max_iter to 1000, but accuracy hardly improved.
+
 To do list, 12/15:
 - Run accuracies/MSEs on random forests without binning
 - Run accuracies/MSEs on FC without binning

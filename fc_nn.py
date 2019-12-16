@@ -34,6 +34,7 @@ class FCmodel(Model):
         # TODO apply each layer from the constructor to x, returning
         # the output of the last layer
         x = self.d0(x)
+        print(x)
         x = self.d1(x)
         return self.d2(x)
 
