@@ -57,7 +57,7 @@ def main():
 
 
     # Partition data into train and test datasets
-    # X_train, y_train, X_test, y_test = partition(X, y)
+    X_train, y_train, X_test, y_test = partition(X, y)
 
     # Uncomment below to test Random Forest
     run_pipeline_rf(X_train, y_train, X_test, y_test)
