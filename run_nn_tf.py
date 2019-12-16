@@ -20,15 +20,17 @@ from fc_nn import FCmodel
 
 
 
-@tf.function
-def train_step(model,lossFunc,optimizer,x,y): # TODO what arguments?
+# @tf.function
+def our_train_step(model,lossFunc,optimizer,x,y): # TODO what arguments?
     ###### TODO: YOUR CODE HERE ######
     # look up documentation for tf.GradientTape
     # compute the predictions given the images, then compute the loss
     # compute the gradient with respect to the model parameters (weights), then
     # apply this gradient to update the weights (i.e. gradient descent)
+
     with tf.GradientTape() as tape:
         predictions = model.call(x)
+        print(predictions)
         loss = lossFunc(y,predictions)
     # Simultaneously optimize trunk and head1 weights.
     gradients = tape.gradient(loss, model.trainable_variables)
@@ -91,7 +93,8 @@ def run_training(model, train_dset):
     for epoch in epochs:
         for songs, labels in train_dset:
         # TODO run training step
-            loss, predictions = train_step(model,cce,adam,songs,labels)
+            # print(songs, labels)
+            loss, predictions = our_train_step(model,cce,adam,songs,labels)
         # uncomment below
             train_loss(loss)
             train_accuracy(labels, predictions)
@@ -169,5 +172,3 @@ def main():
 
     print(confMat)
     ######## END YOUR CODE #############
-
-
