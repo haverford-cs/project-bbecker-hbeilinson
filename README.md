@@ -59,13 +59,13 @@ To do list, 12/15:
 
 Visualizations we want for presentation:
 - DONE: Confusion matrix (heat map style, if possible)
-- ALMOST DONE: Feature importance in random forest
+- DONE: Feature importance in random forest
 - NULL: Feature importance in FC
 - Some graph of mean errors (not squared) after perturbation
 - DONE: Accuracy vs. bin steps
 - DONE: Accuracy proportional to random guessing vs. bin steps
 - DONE: correlations between features and label
-- Frequency of labels
+- DONE: Frequency of labels
 
 References:
 https://www.kaggle.com/edalrami/19000-spotify-songs/data

@@ -52,6 +52,8 @@ def main():
     # Read in data from csv
     X, y = util.read_csv(FILE,normalize=True,mean_center=True, do_bin=False, bin_step=20)
 
+    #plot_labels(y)
+
 
     #test correlation function
     # plot_correlation(X, y)
@@ -265,6 +267,21 @@ def plot_correlation(X, y):
     plt.show()
     plt.savefig("Correlation_plot.png")
 
+def plot_labels(y):
+    labels = list(range(101))
+    frequencies = [0 for label in labels]
+    for seen_label in y:
+        print(seen_label)
+        frequencies[seen_label] += 1
+
+    plt.rc('xtick', labelsize=8)
+    plt.figure(figsize=(12,12))
+    plt.bar(labels, frequencies)
+    plt.ylabel("Frequency")
+    plt.xlabel("Label")
+    plt.title("Label Frequency in the Data")
+    plt.show()
+    # plt.save("Label Frequency.png")
 
 
 if __name__=="__main__":
