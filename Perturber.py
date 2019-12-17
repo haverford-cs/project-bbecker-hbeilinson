@@ -31,7 +31,7 @@ class Perturber:
 			print(self.X)
 		for i in range(num_features):
 			ftr = self.feature_imp[i][0]
-			self.X[:,ftr]*=change
+			self.X[:,ftr]+=change
 		if(self.verbose>0):
 			print(self.X)
 

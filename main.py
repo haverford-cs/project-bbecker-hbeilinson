@@ -28,9 +28,9 @@ from Perturber import Perturber
 FILE = "19000-spotify-songs/song_data.csv"
 T = 200
 PERTURB = True
-NUM_PERTURBED = 3
-CHANGE = 1.05
-VERBOSE = 0
+NUM_PERTURBED = 1
+CHANGE = 0.05
+VERBOSE = 1
 
 def partition(X, y):
     # Partitioned the same way each time it runs so that we're not cross contaminating
@@ -103,9 +103,16 @@ def trainRandomForest(X,y,T,regressor=False):
     clf.fit(X,y)
     return clf
 
+def 
+
 def testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False,doPerturb=False):
 
     clf = trainRandomForest(X_train,y_train,T,regressor)
+
+    if(VERBOSE>0):
+        print("FTR IMP")
+        print(clf.feature_importances_)
+
     if(doPerturb):
         X_test = perturb(clf.feature_importances_,X_test,y_test,VERBOSE,NUM_PERTURBED,CHANGE)
     yHat = np.array(clf.predict(X_test))
@@ -211,9 +218,16 @@ def correlation(y,x):
     print(cor)
     return cor[0][1]
 
-def perturb(ft_imp,X_test,y_test,verbose=0,num_features=1,change=1.05):
+def perturb(ft_imp,X_test,y_test,verbose=0,num_features=1,change=0.05):
     pt = Perturber(ft_imp,X_test,y_test,verbose)
     return pt.perturb(num_features,change)
+
+def perturbed_mean_prediction(clf,X_test,y_test,verbose=0,num_features=1,change=0.05):
+    X_prime = perturb(clf.feature_importances_,X_test,y_test,verbose,num_features,change)
+    yHat = np.array(clf.predict(X_prime))
+    return np.mean(yHat)
+
+
 
 
 def plot_correlation(X, y):
