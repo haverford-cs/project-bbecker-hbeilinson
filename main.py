@@ -30,7 +30,7 @@ T = 200
 PERTURB = True
 NUM_PERTURBED = 1
 CHANGE = 0.05
-CHANGE_RANGE = np.linspace(-0.2,0.2,41)
+CHANGE_RANGE = np.linspace(-1,1,201)
 VERBOSE = 1
 
 def partition(X, y):
@@ -246,6 +246,7 @@ def perturbed_mean_predictions(clf,X_test,y_test,verbose=0,num_features=1,change
 def plot_perturbed_mean_predictions(clf,X_test,y_test):
     change_range, mns = perturbed_mean_predictions(clf,X_test,y_test,VERBOSE,NUM_PERTURBED,CHANGE_RANGE)
     plt.plot(change_range,mns)
+    plt.ylim(0, 100)
     plt.xlabel("Amount Perturbed")
     plt.ylabel("Mean Popularity Prediction")
     plt.title("Perturbed Predictions")
