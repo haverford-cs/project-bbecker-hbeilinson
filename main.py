@@ -50,9 +50,11 @@ def main():
 
     # Read in data from csv
     X, y = util.read_csv(FILE,normalize=True,mean_center=True, do_bin=False, bin_step=20)
-    plot_labels(y)
 
-    #test correlation function
+    # plot label frequency
+    # plot_labels(y)
+
+    # plot correlation
     # plot_correlation(X, y)
 
 
@@ -103,7 +105,7 @@ def trainRandomForest(X,y,T,regressor=False):
     clf.fit(X,y)
     return clf
 
-def 
+def
 
 def testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False,doPerturb=False):
 
