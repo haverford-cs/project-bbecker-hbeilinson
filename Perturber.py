@@ -27,12 +27,12 @@ class Perturber:
 
 
 	def perturb(self,num_features=1,change=1.05):
-		if(self.verbose>0):
+		if(self.verbose>1):
 			print(self.X)
 		for i in range(num_features):
 			ftr = self.feature_imp[i][0]
 			self.X[:,ftr]+=change
-		if(self.verbose>0):
+		if(self.verbose>1):
 			print(self.X)
 
 		return self.X

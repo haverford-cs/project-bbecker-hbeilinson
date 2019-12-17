@@ -30,6 +30,7 @@ T = 200
 PERTURB = True
 NUM_PERTURBED = 1
 CHANGE = 0.05
+CHANGE_RANGE = np.linspace(-0.2,0.2,41)
 VERBOSE = 1
 
 def partition(X, y):
@@ -51,6 +52,9 @@ def main():
     # Read in data from csv
     X, y = util.read_csv(FILE,normalize=True,mean_center=True, do_bin=False, bin_step=20)
 
+    #plot_labels(y)
+
+
     # plot label frequency
     # plot_labels(y)
 
@@ -62,7 +66,7 @@ def main():
     X_train, y_train, X_test, y_test = partition(X, y)
 
     # Uncomment below to test Random Forest
-    run_pipeline_rf(X_train, y_train, X_test, y_test)
+    #run_pipeline_rf(X_train, y_train, X_test, y_test)
 
     #Uncomment below to test sklearn FC
 
@@ -71,6 +75,11 @@ def main():
 
     # Uncomment below to test tensorflow FC
     # run_fc_nn(X_train,y_train,X_test,y_test)
+
+    # Uncomment below to generate perturbation graph w/rf
+    clf = trainRandomForest(X_train,y_train,T)
+    plot_perturbed_mean_predictions(clf,X_test,y_test)
+
 
 def run_pipeline_rf(X_train, y_train, X_test, y_test):
     y_pred = testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False,doPerturb=PERTURB)
@@ -105,7 +114,7 @@ def trainRandomForest(X,y,T,regressor=False):
     clf.fit(X,y)
     return clf
 
-def
+
 
 def testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False,doPerturb=False):
 
@@ -230,7 +239,18 @@ def perturbed_mean_prediction(clf,X_test,y_test,verbose=0,num_features=1,change=
     return np.mean(yHat)
 
 
+def perturbed_mean_predictions(clf,X_test,y_test,verbose=0,num_features=1,change_range=range(0)):
+    mns = [perturbed_mean_prediction(clf,X_test,y_test,verbose,num_features,chg) for chg in change_range]
+    return change_range, mns
 
+def plot_perturbed_mean_predictions(clf,X_test,y_test):
+    change_range, mns = perturbed_mean_predictions(clf,X_test,y_test,VERBOSE,NUM_PERTURBED,CHANGE_RANGE)
+    plt.plot(change_range,mns)
+    plt.xlabel("Amount Perturbed")
+    plt.ylabel("Mean Popularity Prediction")
+    plt.title("Perturbed Predictions")
+    plt.show()
+    plt.savefig("Perturbation_plot.png")
 
 def plot_correlation(X, y):
     features = ["Duration","Acousticness "," Danceability","Energy ","Instrumentalness ","Key","Liveness","Loudness","Audio\nMode","Speechiness","Tempo","Time\nSignature","Audio\nValence"]
