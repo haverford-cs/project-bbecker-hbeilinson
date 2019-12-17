@@ -44,7 +44,7 @@ Hannah, 12/16/19:
 
 Brian, 12/16/19:
 - Computed correlation between label and features in `testCor` found in `main.py`. Found that it is very near 0. Holy mackerel. We think this may relate to our low accuracies.
-- Wrote `Perturber` class..
+- Wrote `Perturber` class. Takes a vector of feature importances and perturbs the most important ones in test data by some specified amount. We hope to see how this will actually affect classification. I.e, how important these features really are to a song's popularity.
 
 To do list, 12/15:
 - Run accuracies/MSEs on random forests without binning

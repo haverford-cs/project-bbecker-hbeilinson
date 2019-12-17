@@ -27,10 +27,10 @@ from Perturber import Perturber
 
 FILE = "19000-spotify-songs/song_data.csv"
 T = 200
-PERTURB = False
-NUM_PERTURBED = 1
+PERTURB = True
+NUM_PERTURBED = 3
 CHANGE = 1.05
-VERBOSE = 1
+VERBOSE = 0
 
 def partition(X, y):
     # Partitioned the same way each time it runs so that we're not cross contaminating
@@ -71,7 +71,7 @@ def main():
     # run_fc_nn(X_train,y_train,X_test,y_test)
 
 def run_pipeline_rf(X_train, y_train, X_test, y_test):
-    y_pred = testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False,perturb=PERTURB)
+    y_pred = testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False,doPerturb=PERTURB)
     # print(rMSE(y_test, y_pred))
     print(accuracy(y_test, y_pred))
     conf_mat(y_pred, X_test, y_test, "Random Forest", numbers=False)
@@ -103,10 +103,10 @@ def trainRandomForest(X,y,T,regressor=False):
     clf.fit(X,y)
     return clf
 
-def testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False,perturb=False):
+def testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False,doPerturb=False):
 
     clf = trainRandomForest(X_train,y_train,T,regressor)
-    if(perturb):
+    if(doPerturb):
         X_test = perturb(clf.feature_importances_,X_test,y_test,VERBOSE,NUM_PERTURBED,CHANGE)
     yHat = np.array(clf.predict(X_test))
     return yHat
