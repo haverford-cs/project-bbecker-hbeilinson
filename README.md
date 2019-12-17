@@ -33,6 +33,10 @@ Hannah, 12/15/19, many hours:
 - Tested random forest. Right now accuracy is very low. Regardless of how much we bin, accuracy is usually about twice as good as random guessing (without binning accuracy is around 2%, with bin_step=25 accuracy is around 40%). Tried increasing T to 1000, but accuracy did not really increase.
 - Worked on trying to get tensorflow to work to see if an FC neural network will perform better.
 
+Brian 12/15/19:
+- Added feature normalization in util.py. Makes each feature out of 1 and mean centers at 0.
+- Added files fc_nn.py and run_nn_tf.py to implement fully connected neural nets using tensorflow. Unfortunately, we ran into a strange error during training so decided to switch to sklearn.
+
 Hannah, 12/16/19:
 - Tried again to improve random forest through changing hyperparameters. Changed max_depth to 2, but this caused it to almost always predict the same popularity score (roughly 54). Then changed min_samples_leaf to 10, but saw very few changes in results. I think that this happens because most of the examples are clustered in a few popularity scores.
 - Added sklearn FC architecture. Initial results have similar accuracy to random forest (0.020435967302452316), but it didn't converge. Increased max_iter to 1000, but accuracy hardly improved.
@@ -40,6 +44,10 @@ Hannah, 12/16/19:
 - Above is probably because it can eliminate all the low scores and is otherwise random.
 - Plotted accuracy and proportional accuracy vs. different binning size, and across both models.
 - Made plot of correlations (after Brian calculated correlations)
+
+Brian, 12/16/19:
+- Computed correlation between label and features in `testCor` found in `main.py`. Found that it is very near 0. Holy mackerel. We think this may relate to our low accuracies.
+- Wrote `Perturber` class..
 
 To do list, 12/15:
 - Run accuracies/MSEs on random forests without binning

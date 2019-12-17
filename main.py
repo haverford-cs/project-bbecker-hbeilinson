@@ -21,11 +21,16 @@ import math
 
 #Our files
 import util
+from Perturber import Perturber
 #import run_nn_tf as nn
 #from fc_nn import FCmodel
 
 FILE = "19000-spotify-songs/song_data.csv"
 T = 200
+PERTURB = False
+NUM_PERTURBED = 1
+CHANGE = 1.05
+VERBOSE = 1
 
 def partition(X, y):
     # Partitioned the same way each time it runs so that we're not cross contaminating
@@ -41,29 +46,32 @@ def partition(X, y):
 
 def main():
     # Runs pipeline
-    accuracy_vs_binning(False)
+    # accuracy_vs_binning(False)
 
     # Read in data from csv
-    # X, y = util.read_csv(FILE,normalize=True,mean_center=True, do_bin=False, bin_step=20)
+    X, y = util.read_csv(FILE,normalize=True,mean_center=True, do_bin=True, bin_step=20)
 
 
     #test correlation function
     # plot_correlation(X, y)
 
+
     # Partition data into train and test datasets
-    # X_train, y_train, X_test, y_test = partition(X, y)
+    X_train, y_train, X_test, y_test = partition(X, y)
 
     # Uncomment below to test Random Forest
-    # run_pipeline_rf(X_train, y_train, X_test, y_test)
+    run_pipeline_rf(X_train, y_train, X_test, y_test)
 
     #Uncomment below to test sklearn FC
-    # run_pipeline_mlp(X_train, y_train, X_test, y_test)
+
+    #run_pipeline_mlp(X_train, y_train, X_test, y_test)
+
 
     # Uncomment below to test tensorflow FC
     # run_fc_nn(X_train,y_train,X_test,y_test)
 
 def run_pipeline_rf(X_train, y_train, X_test, y_test):
-    y_pred = testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False)
+    y_pred = testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False,perturb=PERTURB)
     # print(rMSE(y_test, y_pred))
     print(accuracy(y_test, y_pred))
     conf_mat(y_pred, X_test, y_test, "Random Forest", numbers=False)
@@ -95,9 +103,11 @@ def trainRandomForest(X,y,T,regressor=False):
     clf.fit(X,y)
     return clf
 
-def testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False):
+def testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False,perturb=False):
 
     clf = trainRandomForest(X_train,y_train,T,regressor)
+    if(perturb):
+        X_test = perturb(clf.feature_importances_,X_test,y_test,VERBOSE,NUM_PERTURBED,CHANGE)
     yHat = np.array(clf.predict(X_test))
     return yHat
 
@@ -200,6 +210,10 @@ def correlation(y,x):
     cor = np.corrcoef(z)
     print(cor)
     return cor[0][1]
+
+def perturb(ft_imp,X_test,y_test,verbose=0,num_features=1,change=1.05):
+    pt = Perturber(ft_imp,X_test,y_test,verbose)
+    return pt.perturb(num_features,change)
 
 
 def plot_correlation(X, y):
