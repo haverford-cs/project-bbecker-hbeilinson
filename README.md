@@ -37,6 +37,9 @@ Hannah, 12/16/19:
 - Tried again to improve random forest through changing hyperparameters. Changed max_depth to 2, but this caused it to almost always predict the same popularity score (roughly 54). Then changed min_samples_leaf to 10, but saw very few changes in results. I think that this happens because most of the examples are clustered in a few popularity scores.
 - Added sklearn FC architecture. Initial results have similar accuracy to random forest (0.020435967302452316), but it didn't converge. Increased max_iter to 1000, but accuracy hardly improved.
 - Observation: It's kind of interesting that accuracy is almost exactly twice as good as random regardless of binning or model. Says something inherent about dataset maybe?
+- Above is probably because it can eliminate all the low scores and is otherwise random.
+- Plotted accuracy and proportional accuracy vs. different binning size, and across both models.
+- Made plot of correlations (after Brian calculated correlations)
 
 To do list, 12/15:
 - Run accuracies/MSEs on random forests without binning
@@ -47,12 +50,14 @@ To do list, 12/15:
 - Run tests to collect mean errors post perturbation
 
 Visualizations we want for presentation:
-- Confusion matrix (heat map style, if possible)
-- Feature importance in random forest
-- Feature importance in FC
+- DONE: Confusion matrix (heat map style, if possible)
+- ALMOST DONE: Feature importance in random forest
+- NULL: Feature importance in FC
 - Some graph of mean errors (not squared) after perturbation
-- Accuracy vs. bin steps
-- Accuracy proportional to random guessing vs. bin steps
+- DONE: Accuracy vs. bin steps
+- DONE: Accuracy proportional to random guessing vs. bin steps
+- DONE: correlations between features and label
+- Frequency of labels
 
 References:
 https://www.kaggle.com/edalrami/19000-spotify-songs/data
