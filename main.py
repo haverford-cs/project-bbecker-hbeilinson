@@ -65,6 +65,7 @@ def main():
     # Partition data into train and test datasets
     X_train, y_train, X_test, y_test = partition(X, y)
 
+    print(np.std(y_test))
     # Uncomment below to test Random Forest
     #run_pipeline_rf(X_train, y_train, X_test, y_test)
 
@@ -77,8 +78,8 @@ def main():
     # run_fc_nn(X_train,y_train,X_test,y_test)
 
     # Uncomment below to generate perturbation graph w/rf
-    clf = trainRandomForest(X_train,y_train,T)
-    plot_perturbed_mean_predictions(clf,X_test,y_test)
+    # clf = trainRandomForest(X_train,y_train,T)
+    # plot_perturbed_mean_predictions(clf,X_test,y_test)
 
 
 def run_pipeline_rf(X_train, y_train, X_test, y_test):

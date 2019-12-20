@@ -8,10 +8,10 @@ Date:
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-# import tensorflow as tf
+import tensorflow as tf
 
-# from tensorflow.python.keras import backend as K
-# from tensorflow.python.keras.datasets.cifar import load_batch
+from tensorflow.python.keras import backend as K
+from tensorflow.python.keras.datasets.cifar import load_batch
 
 from fc_nn import FCmodel
 ##################

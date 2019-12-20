@@ -65,7 +65,7 @@ Visualizations we want for presentation:
 - DONE: Accuracy vs. bin steps
 - DONE: Accuracy proportional to random guessing vs. bin steps
 - DONE: correlations between features and label
-- DONE: Frequency of labels
+- Frequency of labels
 
 References:
 https://www.kaggle.com/edalrami/19000-spotify-songs/data
