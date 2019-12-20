@@ -15,7 +15,7 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-#import seaborn as sns
+import seaborn as sns
 
 #import tensorflow as tf
 
@@ -27,8 +27,8 @@ from Perturber import Perturber
 
 FILE = "19000-spotify-songs/song_data.csv"
 T = 200
-PERTURB = True
-NUM_PERTURBED = 1
+PERTURB = False
+NUM_PERTURBED = 10
 CHANGE = 0.05
 CHANGE_RANGE = np.linspace(-1,1,201)
 VERBOSE = 1
@@ -50,7 +50,7 @@ def main():
     # accuracy_vs_binning(False)
 
     # Read in data from csv
-    X, y = util.read_csv(FILE,normalize=True,mean_center=True, do_bin=False, bin_step=20)
+    X, y = util.read_csv(FILE,normalize=True,mean_center=True, do_bin=False, bin_step=25)
 
     #plot_labels(y)
 
@@ -67,11 +67,10 @@ def main():
 
     print(np.std(y_test))
     # Uncomment below to test Random Forest
-    #run_pipeline_rf(X_train, y_train, X_test, y_test)
+    # run_pipeline_rf(X_train, y_train, X_test, y_test)
 
     #Uncomment below to test sklearn FC
-
-    #run_pipeline_mlp(X_train, y_train, X_test, y_test)
+    run_pipeline_mlp(X_train, y_train, X_test, y_test)
 
 
     # Uncomment below to test tensorflow FC
@@ -84,9 +83,9 @@ def main():
 
 def run_pipeline_rf(X_train, y_train, X_test, y_test):
     y_pred = testRandomForest(X_train,y_train,X_test,y_test,T,regressor=False,doPerturb=PERTURB)
-    # print(rMSE(y_test, y_pred))
-    print(accuracy(y_test, y_pred))
-    conf_mat(y_pred, X_test, y_test, "Random Forest", numbers=False)
+    print(rMSE(y_test, y_pred))
+    # print(accuracy(y_test, y_pred))
+    # conf_mat(y_pred, X_test, y_test, "Random Forest", numbers=False)
 
 def run_pipeline_mlp(X_train, y_train, X_test, y_test):
     y_pred = testMLP(X_train,y_train,X_test,y_test)
@@ -95,7 +94,8 @@ def run_pipeline_mlp(X_train, y_train, X_test, y_test):
     conf_mat(y_pred, X_test, y_test, "MLP", numbers=False)
 
 def trainMLP(X,y):
-    clf = MLPClassifier(max_iter=200)
+    clf = MLPClassifier(max_iter=1000, hidden_layer_sizes=(300,100))
+    # clf = MLPClassifier(max_iter=200)
     clf.fit(X,y)
     return clf
 
@@ -166,7 +166,7 @@ def rMSE(y,yHat):
 
 def conf_mat(y_pred, X_test, y_test, regressor_name, numbers=False):
     matrix = confusion_matrix(y_test, y_pred)
-    #sns.heatmap(matrix,annot=numbers,cbar=False)
+    sns.heatmap(matrix,annot=numbers,cbar=False)
     plt.ylabel('True Label')
     plt.xlabel('Predicted Label')
     plt.title(regressor_name + ' Confusion Matrix')
